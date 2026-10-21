@@ -12,7 +12,7 @@
 
 ## 使用方法
 
-1. 从 [Releases](https://github.com/sijiyiran/pcl2-patch-injector/releases) 下载 `PCL2补丁注入工具_界面优化版.exe`
+1. 从 [Releases](https://github.com/sijiyiran/pcl2-patch-injector/releases) 下载 `PCL2-Patch-Injector-v1.2.0.exe`
 2. 双击运行（免安装）
 3. 选择或直接拖入 `Plain Craft Launcher 2.exe`，工具会自动检查
 4. 检查通过后点击「注入补丁」→ 确认框点「开始注入」
