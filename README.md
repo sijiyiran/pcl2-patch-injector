@@ -1,6 +1,7 @@
 # PCL2 补丁注入工具
 
 恢复 PCL2 官方 2.99.x 被禁用的「下载」与「整合包安装」入口——就地注入 IL 补丁，自动备份原文件。
+同时内置 **GitHub 更新下载**：官方更新服务器已关闭，可一键从官方仓库获取最新版 PCL2。
 
 ## 功能特点
 
@@ -8,15 +9,22 @@
 - **就地注入**：选中你的 `Plain Craft Launcher 2.exe`，点「注入补丁」即可，自动备份为 `.bak`
 - **自动检测**：程序版本 / 是否 PCL2 / 是否已注入 / 能否注入
 - **安全写入**：临时文件 + 原子替换，失败不损坏原文件；已注入文件不会重复修改
-- **界面优化版 v1.2**：全新左右分栏界面 + 按钮动效，保留原版全部功能与蓝色主色调
+- **GitHub 下载最新 PCL2**：官方更新服务器关闭后，工具内直接下载官方仓库 `最新正式版.zip`
+  （jsDelivr CDN 主通道 + GitHub API 兜底），下载后自动选中，再点「注入补丁」即可
+- **两个按钮各管各的**：「下载最新 PCL2」只负责下载，「注入补丁」只负责打补丁，互不自动串联
+- **v1.5 深色主题**：全新深色界面（GLM 优化）、更精致的按钮与状态视觉，保留全部功能
 
 ## 使用方法
 
-1. 从 [Releases](https://github.com/sijiyiran/pcl2-patch-injector/releases) 下载 `PCL2-Patch-Injector-v1.2.0.exe`
-2. 双击运行（免安装）
-3. 选择或直接拖入 `Plain Craft Launcher 2.exe`，工具会自动检查
+1. 双击 `PCL2补丁注入工具.exe`（免安装，需 .NET Framework 4.8）
+2. 选择或直接拖入 `Plain Craft Launcher 2.exe`，工具会自动检查（版本 / 类型 / 补丁状态 / 可注入性）
+3. 若需要更新 PCL2：点「③ PCL2 更新」卡片里的「下载最新 PCL2」→ 选择保存位置 →
+   工具从 GitHub 下载最新版并自动选中（**不会自动注入**）
 4. 检查通过后点击「注入补丁」→ 确认框点「开始注入」
 5. 几秒内完成，按钮变绿「补丁已生效」；启动 PCL2 进入下载页即可
+
+> 如果下载失败，可点「在浏览器打开 GitHub」手动下载
+> （<https://github.com/Meloong-Git/PCL> 根目录的 `最新正式版.zip`）。
 
 ## 适用范围
 
@@ -32,6 +40,15 @@ PCL2 2.99.0.0 以"为遵守相关法律法规，PCL 暂时不再提供 MC 下载
 
 工具以 2.13.1.1（下载功能正常）为参照在 IL 层恢复上述实现；全量方法级差分确认只改了这 3 个方法。
 
+## GitHub 更新通道说明
+
+- PCL2 官方更新服务器已关闭，官方改为在仓库 main 分支根目录发布 `最新正式版.zip`（内含 `Plain Craft Launcher 2.exe`）
+- 工具下载主通道为 jsDelivr CDN（`cdn.jsdelivr.net/gh/Meloong-Git/PCL@main/最新正式版.zip`），
+  失败时自动切换 GitHub API（`api.github.com` 的 contents raw 接口）兜底
+- 版本查询走 `api.github.com/repos/Meloong-Git/PCL/releases/latest`（显示 tag 与发布日期）
+- 下载完成后会校验：zip 能打开、内含 PCL2 exe、`FileVersionInfo` 是 Plain Craft Launcher，才落盘
+- 下载/解压均通过临时文件 + 原子替换，失败不留半成品
+
 ## 安全说明
 
 - 注入前自动备份为 `<原文件名>.bak`；若备份已存在，会生成 `<原文件名>.yyyyMMddHHmmss.bak`，不覆盖旧备份
@@ -43,6 +60,8 @@ PCL2 2.99.0.0 以"为遵守相关法律法规，PCL 暂时不再提供 MC 下载
 
 | 版本 | 说明 |
 | --- | --- |
+| v1.5.0 | 深色主题界面优化（GLM）；保留注入核心与 GitHub 下载最新 PCL2；修复 net48 下 jsDelivr TLS 握手（SecurityProtocol 精确 Tls1.2） |
+| v1.3.0 | 新增「③ PCL2 更新（GitHub）」：一键下载官方最新 PCL2（jsDelivr 主 + GitHub API 兜底、百分比进度、下载后自动选中但不自动注入） |
 | v1.2.0 | 界面优化版：左右分栏新界面、状态语义化配色、按钮动效；功能与原版逐字节等价 |
 | v1.1.0 | 初版：注入核心 + 基础界面 |
 
